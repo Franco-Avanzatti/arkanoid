@@ -16,10 +16,10 @@
         box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.4);
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 500px) {
         canvas {
             width: 95vw;
-            height: 70vh;
+            height: auto;
         }
     }
 </style>
@@ -212,15 +212,13 @@
         x += dx
         y += dy
     }
+
     function paddleMovement() {
         if (rightPressed && paddleX < canvas.width - paddleWidth) {
             paddleX += PADDLE_SENSITIVITY
         } else if (leftPressed && paddleX > 0) {
             paddleX -= PADDLE_SENSITIVITY
         }
-
-        // SUAVIZADO de movimiento para touch
-        paddleX += (targetPaddleX - paddleX) * 0.25
     }
 
     function cleanCanvas() {
@@ -248,25 +246,20 @@
                 leftPressed = false
             }
         }
-        // NUEVA: posición objetivo de la paleta
-        let targetPaddleX = paddleX;
-
         canvas.addEventListener('touchmove', function (event) {
             const touch = event.touches[0]
             const rect = canvas.getBoundingClientRect()
             const relativeX = touch.clientX - rect.left
 
-            targetPaddleX = relativeX - paddleWidth / 2
+            paddleX = relativeX - paddleWidth / 2
 
-            // aseguramos que no se salga del canvas
-            if (targetPaddleX < 0) targetPaddleX = 0
-            if (targetPaddleX + paddleWidth > canvas.width) {
-                targetPaddleX = canvas.width - paddleWidth
+            if (paddleX < 0) paddleX = 0
+            if (paddleX + paddleWidth > canvas.width) {
+                paddleX = canvas.width - paddleWidth
             }
 
             event.preventDefault()
         }, { passive: false })
-
 
     }
 
