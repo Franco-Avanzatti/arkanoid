@@ -15,6 +15,13 @@
         display: block;
         box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.4);
     }
+
+    @media (max-width: 768px) {
+        canvas {
+            width: 95vw;
+            height: auto;
+        }
+    }
 </style>
 
 <canvas></canvas>
@@ -244,13 +251,16 @@
             const rect = canvas.getBoundingClientRect()
             const relativeX = touch.clientX - rect.left
 
-            paddleX = realtiveX - paddleWidth / 2
+            paddleX = relativeX - paddleWidth / 2
 
             if (paddleX < 0) paddleX = 0
-            if (paddleX + paddleWidht > canvas.width) paddleX = canvas.width - paddle
+            if (paddleX + paddleWidth > canvas.width) {
+                paddleX = canvas.width - paddleWidth
+            }
 
             event.preventDefault()
-        },  { passive:false })
+        }, { passive: false })
+
     }
 
     // a que velocidad de fps queremos que renderice nuestro juego
