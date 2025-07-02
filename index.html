@@ -239,6 +239,18 @@
                 leftPressed = false
             }
         }
+        canvas.addEventListener('touchmove', function (event) {
+            const touch = event.touches[0]
+            const rect = canvas.getBoundingClientRect()
+            const relativeX = touch.clientX - rect.left
+
+            paddleX = realtiveX - paddleWidth / 2
+
+            if (paddleX < 0) paddleX = 0
+            if (paddleX + paddleWidht > canvas.width) paddleX = canvas.width - paddle
+
+            event.preventDefault()
+        },  { passive:false })
     }
 
     // a que velocidad de fps queremos que renderice nuestro juego
